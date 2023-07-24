@@ -42,6 +42,7 @@ def create_database(database_name: str, params: dict):
 
 
 def insert_to_tables(vacancy_data):
+
     """Скрипт для заполнения данными таблиц в БД Postgres."""
     conn = psycopg2.connect('''
         dbname=vacancies_from_hh
@@ -52,10 +53,17 @@ def insert_to_tables(vacancy_data):
 
     c = conn.cursor
     # Вставка данных из списка vacancies_list
-    c.execute('INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s )', vacancy_data)
+    for item in vacancy_data:
+        title = item[0]
+        url = item[1]
+        salary_max = item[2]
+        salary_min = [3]
+        area = item[4]
+
+        c.execute('INSERT INTO vacancies(title, vacancy_url, salary_max, salary_min, city) VALUES (%s, %s, %s, %s, %s )',
+                 (title, url, salary_max, salary_min, area))
 
     conn.commit()  # Сохранение изменений
     conn.close()  # Закрытие соединения с базой данных
-
 
 

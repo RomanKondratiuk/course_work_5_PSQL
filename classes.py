@@ -11,7 +11,7 @@ class DBManager():
             "Газпром",
             "Роснефть",
             "Магнит",
-            "МТС",
+             "МТС",
             "Ростелеком",
             "МегаФон",
             "Норникель",
@@ -44,7 +44,7 @@ class DBManager():
         def get_vacancies_data(employer_name):
             """Функция получения данных о вакансиях работодателей"""
 
-            vacancies_url = 'https://api.hh.ru/vacancies'#?emploier_id=81411435'
+            vacancies_url = 'https://api.hh.ru/vacancies?'
             params = {
                 'employer_name': employer_name,
                 'area': '1',  # Параметр area для Москвы
@@ -86,11 +86,11 @@ class DBManager():
 
                         city = vacancy['area']['name']
 
-                        print(title)
-                        print(vacancy_url)
-                        print(salary_max)
-                        print(salary_min)
-                        print(city)
+                        print(f"{title}, {vacancy_url}, {salary_max}, {salary_min}, {city},")
+                        # print(vacancy_url)
+                        # print(salary_max)
+                        # print(salary_min)
+                        # print(city)
 
                         # print(f" Название - {title}")
                         # print(f" Ссылка на вакансию - {vacancy_url}")
