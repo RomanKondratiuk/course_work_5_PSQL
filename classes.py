@@ -19,13 +19,13 @@ class DBManager():
             "Лукойл",
         ]
 
-        def get_employers_data(company_name):
+        def get_employers_data(company_names):
             """Функция получения данных о работодателях"""
 
             employers_url = 'https://api.hh.ru/employers'
             params = {
-                'text': company_name,
-                'per_page': 10  # Получение только одного работодателя
+                'text': company_names,
+                'per_page': 1  # Получение только одного работодателя
             }
             response = requests.get(employers_url, params=params)
 
@@ -44,11 +44,11 @@ class DBManager():
         def get_vacancies_data(employer_name):
             """Функция получения данных о вакансиях работодателей"""
 
-            vacancies_url = 'https://api.hh.ru/vacancies'
+            vacancies_url = 'https://api.hh.ru/vacancies'#?emploier_id=81411435'
             params = {
                 'employer_name': employer_name,
                 'area': '1',  # Параметр area для Москвы
-                'per_page': 100  # Получение только 100 вакансий работодателя
+                'per_page': 50  # Получение только 50 вакансий работодателя
             }
             response = requests.get(vacancies_url, params=params)
             count_all = 0
@@ -58,13 +58,46 @@ class DBManager():
                 vacancies = vacancies_data['items']
                 count = 0
                 if vacancies:
-                    print(f"Данные о вакансиях работодателя {employer_name}:")
+                    # print(f"Данные о вакансиях работодателя {employer_name}:")
                     for vacancy in vacancies:
                         count += 1
                         count_all += 1
-                        print(vacancy)
-                        # title = vacancy['name']
-                        # print(f" - {title}")
+
+                        title = vacancy['name']
+                        vacancy_url = vacancy['url']
+
+                        # Проверка на значение NONE
+                        if vacancy['salary'] is not None:
+                            if vacancy['salary']['to'] is not None:
+                                salary_max = vacancy['salary']['to']
+                            else:
+                                salary_max = None
+                        else:
+                            salary_max = None
+
+                        # Проверка на значение NONE
+                        if vacancy['salary'] is not None:
+                            if vacancy['salary']['from'] is not None:
+                                salary_min = vacancy['salary']['from']
+                            else:
+                                salary_min = None
+                        else:
+                            salary_min = None
+
+                        city = vacancy['area']['name']
+
+                        print(title)
+                        print(vacancy_url)
+                        print(salary_max)
+                        print(salary_min)
+                        print(city)
+
+                        # print(f" Название - {title}")
+                        # print(f" Ссылка на вакансию - {vacancy_url}")
+                        # print(f" Максимальная зарплата - {salary_max}")
+                        # print(f" Минимальная зарплата - {salary_min}")
+                        # print(f" Город - {city}")
+                        # print(' ')
                     # print(f"представлено {count} вакансий")
 
 
