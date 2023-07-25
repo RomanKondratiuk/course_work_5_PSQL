@@ -33,7 +33,8 @@ def create_database(database_name: str, params: dict):
                 vacancy_url TEXT,
                 salary_max varchar,
                 salary_min varchar,
-                city VARCHAR(50)
+                city VARCHAR(50),
+                company_name VARCHAR
             )
         """)
 
@@ -42,28 +43,27 @@ def create_database(database_name: str, params: dict):
 
 
 def insert_to_tables(vacancy_data):
-
     """Скрипт для заполнения данными таблиц в БД Postgres."""
     conn = psycopg2.connect('''
-        dbname=vacancies_from_hh
+        dbname=head_hunter
         user=postgres
         password=20010906
         host=localhost
         port=5432''')
 
-    c = conn.cursor
+    c = conn.cursor()
     # Вставка данных из списка vacancies_list
     for item in vacancy_data:
-        title = item[0]
-        url = item[1]
-        salary_max = item[2]
-        salary_min = [3]
-        area = item[4]
+        title = item[1]
+        url = item[2]
+        salary_max = item[3]
+        salary_min = item[4]
+        area = item[5]
+        company_name = item[0]
 
-        c.execute('INSERT INTO vacancies(title, vacancy_url, salary_max, salary_min, city) VALUES (%s, %s, %s, %s, %s )',
-                 (title, url, salary_max, salary_min, area))
+        c.execute(
+            'INSERT INTO vacancies(title, vacancy_url, salary_max, salary_min, city, company_name) VALUES ( %s,  %s, %s, %s, %s, %s )',
+            (title, url, salary_max, salary_min, area, company_name))
 
     conn.commit()  # Сохранение изменений
     conn.close()  # Закрытие соединения с базой данных
-
-

@@ -24,7 +24,7 @@ class DBManager():
 
             employers_url = 'https://api.hh.ru/employers'
             params = {
-                'text': company_name,
+                'text': company_names,
                 'per_page': 1  # Получение только одного работодателя
             }
             response = requests.get(employers_url, params=params)
