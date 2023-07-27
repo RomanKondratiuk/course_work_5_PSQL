@@ -5,7 +5,7 @@
 
 1. Создайте файл "database.ini" и запишите в него параметры для подключения к базе данных,
    ПРИМЕР ФАЙЛА "database.ini"
-    [postgresql]
+    [postgresql].<br>
     host=localhost
     user=user
     password=password
