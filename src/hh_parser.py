@@ -27,7 +27,7 @@ def get_headhunter_vacancies_by_employer(employer_id, per_page=50):
                     salary_max = vacancy["salary"]["to"]
                     salary_min = vacancy["salary"]["from"]
                 all_vacancies.append({
-                     "title": vacancy["name"],
+                    "title": vacancy["name"],
                     "url": vacancy["alternate_url"],
                     "salary_max": salary_max,
                     "salary_min": salary_min,

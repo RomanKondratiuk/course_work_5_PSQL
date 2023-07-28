@@ -1,9 +1,9 @@
+from decimal import Decimal
+
 from src.config import config
 from src.constants import DB_NAME
 from src.data_base import create_database, insert_to_tables
 from src.db_manager import DBManager
-import re
-from decimal import Decimal
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
     else:
         raise PermissionError("Вы решили отказаться...")
 
-    user_input = input("Для вывода всех вакансий с более детальной инфориацией нажмите 2: ")
+    user_input = input("Для вывода всех вакансий с более детальной информацией нажмите 2: ")
     if user_input == '2':
         for elem in db_manager.get_all_vacancies():
             print('Название компании:', elem[0])
@@ -42,13 +42,20 @@ def main():
 
     user_input = input("Для вывода средней зарплаты нажмите 3: ")
     if user_input == '3':
-        avg = db_manager.get_avg_salary()
-        print(avg)
+        avg_salary = db_manager.get_avg_salary()
+        # Извлекаем первый элемент списка по индексу 0
+        first_result = avg_salary[0]
+        # Извлекаем значение Decimal из кортежа
+        decimal_value = first_result[0]
+        # Преобразуем значение Decimal в строку
+        avg_string = str(decimal_value)
+        print(f"Cредняя зарплата: {avg_string}")
         print("=" * 30)
     else:
         raise PermissionError("Вы решили отказаться...")
 
-    user_input = input("""Для вывода списка всех вакансий, у которых зарплата  выше средней по всем вакансиям нажмите 4: """)
+    user_input = input(
+        """Для вывода списка всех вакансий, у которых зарплата  выше средней по всем вакансиям нажмите 4: """)
 
     if user_input == '4':
         for elem in db_manager.get_vacancies_with_higher_salary():
@@ -61,7 +68,8 @@ def main():
     else:
         raise PermissionError("Вы решили отказаться...")
 
-    user_input = input(""" Для вывода списка всех вакансий,  в названии которых содержатся переданные в метод слова, например “python” нажмите 5: """)
+    user_input = input(
+        """ Для вывода списка всех вакансий,  в названии которых содержатся переданные в метод слова, например “python” нажмите 5: """)
     if user_input == '5':
         for elem in db_manager.get_vacancies_with_keyword():
             print('Название компании:', elem[0])
