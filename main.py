@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from src.config import config
 from src.constants import DB_NAME
 from src.data_base import create_database, insert_to_tables
@@ -18,6 +16,7 @@ def main():
     print("")
 
     db_manager = DBManager(DB_NAME, params)
+    print("Вам представлены следуюшие варианты реализации программы:")
     user_input = input("""Для получения списка всех компаний и количества вакансий у каждой компании нажите 1: """)
 
     if user_input == '1':
@@ -71,13 +70,20 @@ def main():
     user_input = input(
         """ Для вывода списка всех вакансий,  в названии которых содержатся переданные в метод слова, например “python” нажмите 5: """)
     if user_input == '5':
-        for elem in db_manager.get_vacancies_with_keyword():
+
+        user_input = input('Введите ключевое слово по которому будет осуществляться поиск: ')
+        key_word = user_input.lower()
+        count_vacancies = 0
+
+        for elem in db_manager.get_vacancies_with_keyword(key_word):
             print('Название компании:', elem[0])
             print('Название вакансии:', elem[1])
             print('Ссылка на вакансию:', elem[2])
             print('Минимальная зарплата:', elem[3])
             print('Максимальная зарплата:', elem[4])
             print("=" * 30)
+            count_vacancies +=1
+        print(f"Найдено {count_vacancies} вакансий по ключевому слову '{key_word}'!")
     else:
         raise PermissionError("Вы решили отказаться...")
 

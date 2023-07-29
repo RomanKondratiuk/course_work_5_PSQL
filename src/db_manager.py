@@ -43,12 +43,12 @@ class DBManager():
                         """)
         return self.cur.fetchall()
 
-    def get_vacancies_with_keyword(self):
+    def get_vacancies_with_keyword(self, key_word):
         """функция которая получает список всех вакансий,
          в названии которых содержатся переданные в метод слова, например “python”."""
 
-        self.cur.execute("""select * from vacancies
-                            where title like '%Python%'""")
+        self.cur.execute(f"""select * from vacancies
+                            where title like '%{key_word}%'""")
         return self.cur.fetchall()
 
     def disconnect(self):
