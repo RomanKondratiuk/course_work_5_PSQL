@@ -3,11 +3,13 @@ from src.constants import DB_NAME
 from src.data_base import create_database, insert_to_tables
 from src.db_manager import DBManager
 
-params = config()
-db_manager = DBManager(DB_NAME, params)
+# params = config()
+# db_manager = DBManager(DB_NAME, params)
 
 
 def main():
+    params = config()
+
     print("Создаем базу данных и таблицы...")
     create_database(DB_NAME, params)
     print("База данных и таблицы созданы!")
@@ -15,6 +17,8 @@ def main():
     insert_to_tables(DB_NAME, params)
     print("Данные успешно внесены в базу данных!")
     print("")
+    db_manager = DBManager(DB_NAME, params)
+
 
     def get_user_input():
         for i in range(5):
@@ -90,8 +94,8 @@ def main():
 
     try:
         get_user_input()
-    except PermissionError:
-        print(PermissionError)
+    except PermissionError as e:
+        print(e)
 
     finally:
         db_manager.disconnect()
